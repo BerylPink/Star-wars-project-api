@@ -1,8 +1,9 @@
-const movieControler = require('../controllers/movie');
-const axios = require('axios');
+const movieControler = require('../controllers/movie'),
+    axios = require('axios');
 
 exports.getCharactersofMovie = async function (movieId) {
     try {
+        
         const movieData = await movieControler.getMovieId(movieId);
         let movieCharacters = await Promise.all( movieData.characters.map(async (url) => {
             const characterData = await axios.get(url);
@@ -11,7 +12,7 @@ exports.getCharactersofMovie = async function (movieId) {
 
         return movieCharacters;
 
-    }catch (e) {
-        Promise.reject(e);
+    }catch (err) {
+        Promise.reject(err);
     }
 };

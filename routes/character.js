@@ -8,7 +8,7 @@ const _ = require('lodash');
 
 const Movie = require('../models/movie');
 
-const axios = require('axios');
+const axios = require('axios'); 
 
 router.get('/:movieId', async(req, res) => {
     const movieId = req.params.movieId;

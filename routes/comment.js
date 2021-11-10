@@ -43,7 +43,7 @@ router.post("/addComment", (req, res) => {
                     commentory_id: req.body.commentory_id,
                     commentory_type: req.body.commentory_type,
                     ip_address: req.header('x-forwarded-for') || req.connection.remoteAddress,
-                    date: new Date(Date.now()).toISOString()
+                    date: new Date(Date.now()).toISOString().replace(/:/g, '-')
                 });
 
                 Comment.collection.insert(comm);
