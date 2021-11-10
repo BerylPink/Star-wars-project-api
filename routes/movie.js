@@ -1,5 +1,7 @@
 const express = require('express');
 
+const mongoose = require('mongoose');
+
 const router = express.Router();
 
 const Movie = require('../models/movie');
@@ -13,7 +15,7 @@ const _ = require('lodash');
 const axios = require('axios');
 
 
-router.get("/getmovies", async (req, res) => {
+router.get("/get-movies", async (req, res) => {
     try {
         const api_url = `${process.env.SWAPI_URL}/films`
         const response_api = await axios.get(api_url);

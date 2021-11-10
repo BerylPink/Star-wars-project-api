@@ -1,5 +1,7 @@
 const express = require('express');
 
+const mongoose = require('mongoose')
+
 const router = express.Router();
 
 const Movie = require('../models/movie');
@@ -36,10 +38,12 @@ router.post("/addComment", (req, res) => {
         
                 }
                 let comm = new Comment({
+                    _id:  mongoose.Types.ObjectId(),
                     comment: req.body.comment, 
                     commentory_id: req.body.commentory_id,
                     commentory_type: req.body.commentory_type,
-                    ip_address: req.header('x-forwarded-for') || req.connection.remoteAddress
+                    ip_address: req.header('x-forwarded-for') || req.connection.remoteAddress,
+                    date: new Date(Date.now()).toISOString()
                 });
 
                 Comment.collection.insert(comm);

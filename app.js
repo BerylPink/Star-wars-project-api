@@ -1,12 +1,8 @@
 const express = require('express');
-const sequelize = require('./util/database');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
-
-//models
-const Movie = require('./models/movie');
-const Comment = require('./models/comment');
 
 //Routes
 const movieRoutes  = require('./routes/movie');
@@ -34,13 +30,10 @@ app.use('/movies', movieRoutes);
 app.use('/comments', commentRoutes);
 app.use('/characters', characterRoutes);
 
-
-sequelize
-    .sync({force: true})
-    .then(result => {
-        // console.log(result); // comment after
-        app.listen(8080);
-    })
-    .catch(err => {
-        console.log(err);
+mongoose.connect('mongodb+srv://Star-Admin:Admin.123@cluster2.0fekd.mongodb.net/star-wars')
+.then(result => {
+    app.listen(8080);
+})
+.catch(err => {
+    console.log(err);
 });

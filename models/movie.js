@@ -1,34 +1,29 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../util/database');
+const Schema = mongoose.Schema;
 
-const Movie = sequelize.define('movie', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
+const movieSchema = new Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     title: {
-        type: Sequelize.STRING,
-        allowNull: false
+      type: String,
+      required: true
     },
     opening_crawl: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: String,
+        required: true
     },
     episode_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Number,
+        required: true
     },
     release_date: {
-        type: Sequelize.DATE,
-        allowNull: false  
+        type: String,
+        required: true 
     },
     comment_count: {
         type: Number, 
         default: 0
     }
-});
-
-module.exports = Movie;
+  });
+  
+  module.exports = mongoose.model('Movie', movieSchema);

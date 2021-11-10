@@ -1,35 +1,30 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../util/database');
+const Schema = mongoose.Schema;
 
-const Comment = sequelize.define('comment', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
-    ip_address: {
-        type: Sequelize.STRING,
-        allowNull: false,
+
+const commentSchema = new Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    comment: {
+        type: String,
         required: true
     },
     commentory_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+        type: Number,
         required: true
     },
     commentory_type: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+        type: String,
         required: true
     },
-    comment_field: {
-        type: Sequelize.STRING,
-        allowNull: false,
+    ip_address: {
+        type: String,
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
-
 });
 
-module.exports = Comment;
+module.exports = mongoose.model('Comment', commentSchema);
