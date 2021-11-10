@@ -20,7 +20,7 @@ const axios = require('axios');
 
 router.post("/addComment", (req, res) => {
     try {     
-        Movie.find().select('title opening_crawl episode_id release_date comment_count').exec().then(obj => {
+        Movie.findById(movieId).select('title opening_crawl episode_id release_date comment_count').exec().then(obj => {
             if(obj.length > 0){ 
                 let check = false;
                 for (let i = 0; i < obj.length; i++){

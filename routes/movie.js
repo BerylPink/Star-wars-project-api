@@ -44,7 +44,7 @@ router.get("/get-movies", async (req, res) => {
 
             }
             else {  
-                var movie = Movie.collection.insertOne(sort);
+                var movie = Movie.collection.insertOne(sort); 
                 res.json({
                     status: 200,
                     message: "Movie retrieved",
