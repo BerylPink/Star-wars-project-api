@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cors = require('cors')
 const app = express();
 
 //Routes
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
         next();
     }
 });
+
+app.use(cors())
 
 // Routes which should handle requests
 app.use('/movies', movieRoutes);
