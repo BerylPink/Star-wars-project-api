@@ -1,0 +1,375 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A set of rest API endpoints with NodeJS that can be used for listing the names of Star Wars movies along with their opening crawls and comment counts, adding and listing anonymous comments for a movie, and getting the character list for a movie.\n",
+    "version": "1.0.0",
+    "title": "Star Wars Movie API",
+    "contact": {
+      "email": "ntimiadiel@gmail.com"
+    }
+  },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/FreyIc/star-wars/1.0.0",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/movies/get-movies": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "getMovies",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Gets all the Movies from Swapi endpoint and its comment count from database, also sorts this movies by their release date",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/movies"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies extracted successfully"
+          },
+          "400": {
+            "description": "Bad request sent during comment creation"
+          }
+        }
+      }
+    },
+    "/comments/addComment": {
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Create Movie comments",
+        "description": "creates a comments for a specific movie",
+        "operationId": "addComment",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created comment object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment successfully created",
+            "schema": {
+              "$ref": "#/definitions/postComment200Response"
+            }
+          },
+          "400": {
+            "description": "Bad request sent",
+            "schema": {
+              "$ref": "#/definitions/postComment400Response"
+            }
+          }
+        }
+      }
+    },
+    "/comments/{movieId}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Get all comments for a Movie",
+        "description": "Get all comments for a Movie",
+        "operationId": "findCommentByMovieId",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "ID of movie to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comments retrieved for this movie",
+            "schema": {
+              "$ref": "#/definitions/CommentResponse"
+            }
+          },
+          "503": {
+            "description": "Unavailable Service"
+          }
+        }
+      }
+    },
+    "/characters/{movieId}?sortBy={name}&order={asc}&gender={female}": {
+      "get": {
+        "tags": [
+          "Charcter"
+        ],
+        "summary": "Find all character for a movie Sort and Filter",
+        "description": "Returns characters by movieId",
+        "operationId": "getAllCharactersByMovieId",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "ID of movie to return character by",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sort Characters by one of name, gender or height",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "order Characters in ascending or descending order",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "Filter Characters by male or female",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully fectched character",
+            "schema": {
+              "$ref": "#/definitions/characterResponse200"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "movies": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "format": "string"
+        },
+        "opening_crawl": {
+          "type": "string",
+          "format": "string"
+        },
+        "release_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "comment_count": {
+          "type": "integer",
+          "description": "int64"
+        }
+      },
+      "xml": {
+        "name": "Movies"
+      }
+    },
+    "characterResponse200": {
+      "properties": {
+        "anyOf": {
+          "$ref": "#/externalDocs/url"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "height": {
+          "type": "string",
+          "format": "string"
+        },
+        "mass": {
+          "type": "string",
+          "format": "string"
+        },
+        "hair_oolor": {
+          "type": "string",
+          "format": "string"
+        },
+        "skin_color": {
+          "type": "string",
+          "format": "string"
+        },
+        "eye_color": {
+          "type": "string",
+          "format": "string"
+        },
+        "birth_year": {
+          "type": "string",
+          "format": "string"
+        },
+        "gender": {
+          "type": "string",
+          "format": "string"
+        },
+        "homeworld": {
+          "type": "array",
+          "example": "https://swapi.co/api/planets",
+          "xml": {
+            "name": "homeworld",
+            "wrapped": true
+          }
+        },
+        "films": {
+          "type": "array",
+          "xml": {
+            "name": "films",
+            "wrapped": true
+          }
+        },
+        "species": {
+          "type": "array",
+          "xml": {
+            "name": "species",
+            "wrapped": true
+          }
+        },
+        "vehicles": {
+          "type": "array",
+          "xml": {
+            "name": "vehicles",
+            "wrapped": true
+          }
+        },
+        "starships": {
+          "type": "array",
+          "xml": {
+            "name": "starship",
+            "wrapped": true
+          }
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "edited": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "url": {
+          "type": "array",
+          "xml": {
+            "name": "url",
+            "wrapped": true
+          }
+        }
+      }
+    },
+    "CommentResponse": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/movies"
+        },
+        "movie_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "ip_address": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "CommentResponse"
+      }
+    },
+    "CommentRequest": {
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "commentory_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentory_type": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "CommentRequest"
+      }
+    },
+    "postComment200Response": {
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "commentory_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentory_type": {
+          "type": "string"
+        }
+      }
+    },
+    "postComment400Response": {
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "commentory_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentory_type": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Star wars Movies",
+    "url": "https://swapi.co/api/"
+  }
+}
